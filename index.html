@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Surprise - PankajUK07</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <style>
+        body { 
+            margin: 0; 
+            background-color: #000; 
+            overflow: hidden; 
+            font-family: 'Courier New', Courier, monospace; 
+        }
+        
+        #ui-layer { 
+            position: absolute; 
+            top: 18%; 
+            left: 8%; 
+            z-index: 10; 
+            width: 84%; 
+        }
+        
+        #message { 
+            color: #ffffff; 
+            font-size: 1.1rem; 
+            line-height: 1.6; 
+            white-space: pre-wrap; 
+        }
+        
+        .pov { 
+            position: absolute; 
+            top: 5%; 
+            width: 100%; 
+            text-align: center; 
+            color: #ffb7c5; 
+            font-size: 1.4rem; 
+            font-weight: bold; 
+            z-index: 5; 
+        }
+
+        /* Your Custom Credit Line */
+        .footer-credit {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            z-index: 20;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="pov"> HAPPY Birthday !! 💖🥳</div>
+    
+    <div id="ui-layer">
+        <div id="message"></div>
+    </div>
+
+    <div class="footer-credit">❤️ Created By PankajUK07 With Love ❤️</div>
+
+    <script>
+        let branches = [];
+        let visualGrowth = 0;
+
+        function setup() {
+            createCanvas(windowWidth, windowHeight);
+            // Root branch starts here
+            generateTree(width / 2, height - 80, -HALF_PI, 100, 0);
+        }
+
+        function draw() {
+            background(0);
+            
+            // Speed up the drawing process slightly
+            if (visualGrowth < branches.length) {
+                visualGrowth += 1; 
+            }
+
+            for (let i = 0; i < visualGrowth; i++) {
+                let b = branches[i];
+                stroke(255, 182, 193, 180);
+                strokeWeight(map(b.level, 0, 10, 4, 1));
+                line(b.x1, b.y1, b.x2, b.y2);
+                
+                // Draw heart blossoms at the tips
+                if (b.level >= 8) {
+                    drawHeart(b.x2, b.y2);
+                }
+            }
+        }
+
+        function generateTree(x1, y1, angle, len, level) {
+            if (level > 10) return;
+
+            let x2 = x1 + cos(angle) * len;
+            let y2 = y1 + sin(angle) * len;
+            branches.push({x1, y1, x2, y2, level});
+
+            // Creates the split effect
+            let leftAngle = angle - PI/6;
+            let rightAngle = angle + PI/6;
+            
+            generateTree(x2, y2, leftAngle + random(-0.1, 0.1), len * 0.8, level + 1);
+            generateTree(x2, y2, rightAngle + random(-0.1, 0.1), len * 0.8, level + 1);
+        }
+
+        function drawHeart(x, y) {
+            fill(255, 50, 100, 100);
+            noStroke();
+            // A simple heart using two circles and a triangle
+            let r = 3;
+            circle(x - r, y, r * 2);
+            circle(x + r, y, r * 2);
+            triangle(x - r * 2, y, x + r * 2, y, x, y + r * 3);
+        }
+
+        // --- COMPLETE TEXT SCRIPT ---
+        setTimeout(() => {
+            new Typed('#message', {
+                strings: [
+                    'Hey you...^800\n' +
+                    'Happy Birthday! 🎂\n' +
+                    'May God bless you 🎈\n' +
+                    'And give u many happiness ✨\n' +
+                    'Just saying... you\'re pretty awesome 😊\n' +
+                    'Sending good vibes and maybe a wink 😉\n' +
+                    'Hope u have a great day today ❤️'
+                ],
+                typeSpeed: 50,
+                showCursor: true,
+                cursorChar: '|',
+                loop: false
+            });
+        }, 1200);
+
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+        }
+    </script>
+</body>
+</html>
